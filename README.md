@@ -10,7 +10,6 @@ This project is a simple implementation of compression and decompression using a
 ## Prerequisites
 
 - **Python 3.8+**
-- Ensure all required modules (`BitReader`, `BytesWriter`, `ArithmeticEncoder`, `HeaderManager`) are in the correct directory (classes/)
 
 ## File Structure
 
@@ -38,3 +37,8 @@ This project is organized into several utility classes and modules to handle spe
 ### File Locations
 
 Ensure these files are in the `classes` folder, or adjust your imports accordingly in the main script.
+
+## Recommendations
+
+To make the most out of this project, consider running it with [PyPy](https://www.pypy.org/).  
+PyPy is an alternative Python interpreter with a built-in Just-In-Time (JIT) compiler that can significantly improve the performance of Python programs, especially for computationally intensive tasks.
