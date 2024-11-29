@@ -1,11 +1,13 @@
 from classes.ArithmeticEncoder import ArithmeticEncoder
 from classes.HeaderManager import HeaderManager
 from time import time
+from os import getcwd
 
 # Paths
-TXT_FILE_PATH = "out/to_compress.txt"
-BIN_FILE_PATH = "out/compressed.bin"
-UNZIPPED_PATH = "out/decompressed.txt"
+CURRENT_DIR = getcwd().replace("\\", "/")
+TXT_FILE_PATH = f"{CURRENT_DIR}/out/to_compress.txt"
+BIN_FILE_PATH = f"{CURRENT_DIR}/out/compressed.bin"
+UNZIPPED_PATH = f"{CURRENT_DIR}/out/decompressed.txt"
 
 # Integer constants
 PRECISION = 24
@@ -30,9 +32,9 @@ def decompress(encoder: ArithmeticEncoder) -> None:
 
 
 def fill_text_file(file_path: str) -> None:
-    # around 12 Mo of text data
+    # around 12,5 Mo of text data
     with open(file_path, "w") as f:
-        f.write("Hello World " * 1_000_000)
+        f.write("Hello World  " * 1_000_000)
 
 
 if __name__ == '__main__':
@@ -40,9 +42,12 @@ if __name__ == '__main__':
     coder = ArithmeticEncoder(HEADER_MANAGER, WHOLE, BLOCK_BUFFER_SIZE)
 
     while True:
-        choice = int(input("Compress (1), decompress (2), fill text file (3), quit (0) ---  "))
+        choice = int(input("--- (1) Compress, (2) decompress, (3) fill text file, (0) quit ---  "))
 
-        if choice == 1:
+        if choice == 0:
+            print("Quit :'")
+            break
+        elif choice == 1:
             print("Compressing...")
             compress(coder)
         elif choice == 2:
@@ -51,6 +56,5 @@ if __name__ == '__main__':
         elif choice == 3:
             print(f"Filled \"{TXT_FILE_PATH}\"")
             fill_text_file(TXT_FILE_PATH)
-        elif choice == 0:
-            print("Quit :'")
-            break
+        else:
+            print("Invalid choice")
