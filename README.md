@@ -22,16 +22,16 @@ This project is a simple implementation of compression and decompression using a
 
 This project is organized into several utility classes and modules to handle specific tasks:
 
-- **`ArithmeticEncoder.py`**: 
+- **`ArithmeticEncoder.py`**:
   Implements the arithmetic encoding algorithm for compressing and decompressing data.
 
-- **`HeaderManager.py`**: 
+- **`HeaderManager.py`**:
   Handles metadata management, including the text's **original length**, **number of different characters**, and **character mappings**.
 
-- **`BytesWriter.py`**: 
+- **`BytesWriter.py`**:
   Manages writing binary data to files, ensuring efficient storage of compressed information.
 
-- **`BitReader.py`**: 
+- **`BitReader.py`**:
   Handles bit-level reading operations for binary files, which is essential for decompression.
 
 ### File Locations

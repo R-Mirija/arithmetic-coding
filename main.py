@@ -15,7 +15,8 @@ WHOLE = pow(2, PRECISION)
 BLOCK_BUFFER_SIZE = 8192  # 8 Ko
 
 # Global utility
-HEADER_MANAGER = HeaderManager(length_bytes=8, char_nbr_bytes=4, char_bytes=4, pb_bytes=4, char_prob_precision=WHOLE // 6)
+HEADER_MANAGER = HeaderManager(length_bytes=8, char_nbr_bytes=4,
+                               char_bytes=4, pb_bytes=4, char_prob_precision=WHOLE // 6)
 
 
 # Some functions :)
@@ -42,7 +43,10 @@ if __name__ == '__main__':
     coder = ArithmeticEncoder(HEADER_MANAGER, WHOLE, BLOCK_BUFFER_SIZE)
 
     while True:
-        choice = int(input("--- (1) Compress, (2) decompress, (3) fill text file, (0) quit ---  "))
+
+        choice = int(
+            input("--- (1) Compress, (2) decompress, (3) fill text file, (0) quit ---  ")
+        )
 
         if choice == 0:
             print("Quit :'")

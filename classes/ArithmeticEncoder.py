@@ -35,9 +35,10 @@ class ArithmeticEncoder:
 
             while block := src_f.read(self.block_buffer_size):
                 for char in block:
+                    char_precision = self.header_manager.get_char_prob_precision()
                     w = b - a
-                    b = a + w * cumulated["pb"][char]["max"] // self.header_manager.get_char_prob_precision()
-                    a = a + w * cumulated["pb"][char]["min"] // self.header_manager.get_char_prob_precision()
+                    b = a + w * cumulated["pb"][char]["max"] // char_precision
+                    a = a + w * cumulated["pb"][char]["min"] // char_precision
 
                     while b < self.half or a > self.half:
                         if b < self.half:
@@ -52,7 +53,7 @@ class ArithmeticEncoder:
                             a = 2 * (a - self.half)
                             b = 2 * (b - self.half)
                             s = 0
-                            
+
                         # uncomment this line for very, very large files
                         # bits = bytes_writer.write_bytes(bits)
 
@@ -61,7 +62,8 @@ class ArithmeticEncoder:
                         b = 2 * (b - self.quarter)
                         s += 1
             s += 1
-            bits.extend([0] + ([1] * s) if a <= self.quarter else [1] + ([0] * s))
+            bits.extend([0] + ([1] * s) if a <=
+                        self.quarter else [1] + ([0] * s))
             bits = bytes_writer.write_bytes(bits)
             bytes_writer.write_remaining_bytes(bits)
 
@@ -84,9 +86,10 @@ class ArithmeticEncoder:
 
             while True:
                 for char in cumulated["pb"]:
+                    char_precision = self.header_manager.get_char_prob_precision()
                     w = b - a
-                    a0 = a + w * cumulated["pb"][char]["min"] // self.header_manager.get_char_prob_precision()
-                    b0 = a + w * cumulated["pb"][char]["max"] // self.header_manager.get_char_prob_precision()
+                    a0 = a + w * cumulated["pb"][char]["min"] // char_precision
+                    b0 = a + w * cumulated["pb"][char]["max"] // char_precision
 
                     # if character matches interval
                     if a0 <= tag < b0:

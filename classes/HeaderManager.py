@@ -38,7 +38,8 @@ class HeaderManager:
         }
         # need to complete values due to rounding
         if result["pb"]:
-            result["pb"][list(result["pb"].keys())[0]] += self.char_prob_precision - sum(result["pb"].values())
+            result["pb"][list(result["pb"].keys())[
+                0]] += self.char_prob_precision - sum(result["pb"].values())
 
         return result
 
@@ -64,12 +65,16 @@ class HeaderManager:
         """
         Write header to the output file.
         """
-        dest_file.write(header["sequence_length"].to_bytes(self.length_bytes, byteorder="big", signed=False))
-        dest_file.write(header["char_nbr"].to_bytes(self.char_nbr_bytes, byteorder="big", signed=False))
+        dest_file.write(header["sequence_length"].to_bytes(
+            self.length_bytes, byteorder="big", signed=False))
+        dest_file.write(header["char_nbr"].to_bytes(
+            self.char_nbr_bytes, byteorder="big", signed=False))
 
         for char, pb in header["pb"].items():
-            dest_file.write(ord(char).to_bytes(self.char_bytes, byteorder="big", signed=False))
-            dest_file.write(pb.to_bytes(self.pb_bytes, byteorder="big", signed=False))
+            dest_file.write(ord(char).to_bytes(
+                self.char_bytes, byteorder="big", signed=False))
+            dest_file.write(pb.to_bytes(
+                self.pb_bytes, byteorder="big", signed=False))
 
     def decode_header(self, src_file: BinaryIO) -> dict:
         """
@@ -83,8 +88,10 @@ class HeaderManager:
         }
 
         for _ in range(header["char_nbr"]):
-            char = chr(int.from_bytes(src_file.read(self.char_bytes), byteorder="big", signed=False))
-            value = int.from_bytes(src_file.read(self.pb_bytes), byteorder="big", signed=False)
+            char = chr(int.from_bytes(src_file.read(
+                self.char_bytes), byteorder="big", signed=False))
+            value = int.from_bytes(src_file.read(
+                self.pb_bytes), byteorder="big", signed=False)
             header["pb"][char] = value
 
         return header
