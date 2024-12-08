@@ -31,11 +31,13 @@ class HeaderManager:
         for line in file:
             pb.update(line)
             length += len(line)
+        
         result = {
             "pb": {char: freq * self.char_prob_precision // length for char, freq in pb.items()},
             "char_nbr": len(pb),
             "sequence_length": length,
         }
+        
         # need to complete values due to rounding
         if result["pb"]:
             result["pb"][list(result["pb"].keys())[

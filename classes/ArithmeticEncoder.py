@@ -6,11 +6,12 @@ from classes.HeaderManager import HeaderManager
 
 class ArithmeticEncoder:
 
-    def __init__(self, header_manager: HeaderManager, whole: int, block_buffer_size: int) -> None:
+    def __init__(self, header_manager: HeaderManager, byte_precision: int, block_buffer_size: int) -> None:
         self.header_manager = header_manager
-        self.whole = whole
-        self.half = whole // 2
-        self.quarter = whole // 4
+        self.precision = byte_precision * 8
+        self.whole = 1 << self.precision
+        self.half = self.whole // 2
+        self.quarter = self.whole // 4
         self.block_buffer_size = block_buffer_size
 
     def compress(self, src_file: str, dest_file: str) -> None:
@@ -67,7 +68,7 @@ class ArithmeticEncoder:
             bits = bytes_writer.write_bytes(bits)
             bytes_writer.write_remaining_bytes(bits)
 
-    def decompress(self, src_file: str, dest_file: str, precision: int) -> None:
+    def decompress(self, src_file: str, dest_file: str) -> None:
         """
         Decompress the file using arithmetic coding.
         """
@@ -80,7 +81,8 @@ class ArithmeticEncoder:
             a, b = 0, self.whole
 
             # Getting tag approximation
-            tag = int.from_bytes(src_f.read(precision // 8), byteorder="big")
+            tag = int.from_bytes(src_f.read(
+                self.precision // 8), byteorder="big")
             count = 0
             sequence = ""
 
@@ -92,7 +94,9 @@ class ArithmeticEncoder:
                     b0 = a + w * cumulated["pb"][char]["max"] // char_precision
 
                     # if character matches interval
+                    found = False
                     if a0 <= tag < b0:
+                        found = True
                         a, b = a0, b0
                         sequence += char
                         count += 1
@@ -105,6 +109,9 @@ class ArithmeticEncoder:
                             return
 
                         break
+
+                if not found:
+                    raise ValueError("Invalid file to decompress")
 
                 while b < self.half or a > self.half:
                     if b < self.half:

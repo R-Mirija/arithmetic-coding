@@ -10,13 +10,18 @@ BIN_FILE_PATH = f"{CURRENT_DIR}/out/compressed.bin"
 UNZIPPED_PATH = f"{CURRENT_DIR}/out/decompressed.txt"
 
 # Integer constants
-PRECISION = 24
-WHOLE = pow(2, PRECISION)
+ENCODER_BYTE_PRECISION = 4  # 32 bits
 BLOCK_BUFFER_SIZE = 8192  # 8 Ko
+CHAR_PRECISION = 1 << ENCODER_BYTE_PRECISION * 8 // 6
 
 # Global utility
-HEADER_MANAGER = HeaderManager(length_bytes=8, char_nbr_bytes=4,
-                               char_bytes=4, pb_bytes=4, char_prob_precision=WHOLE // 6)
+HEADER_MANAGER = HeaderManager(
+    length_bytes=8,
+    char_nbr_bytes=4,
+    char_bytes=4,
+    pb_bytes=4,
+    char_prob_precision=CHAR_PRECISION
+)
 
 
 # Some functions :)
@@ -28,7 +33,7 @@ def compress(encoder: ArithmeticEncoder) -> None:
 
 def decompress(encoder: ArithmeticEncoder) -> None:
     start = time()
-    encoder.decompress(BIN_FILE_PATH, UNZIPPED_PATH, PRECISION)
+    encoder.decompress(BIN_FILE_PATH, UNZIPPED_PATH)
     print(f"Decompression: {time() - start}s")
 
 
@@ -40,7 +45,8 @@ def fill_text_file(file_path: str) -> None:
 
 if __name__ == '__main__':
 
-    coder = ArithmeticEncoder(HEADER_MANAGER, WHOLE, BLOCK_BUFFER_SIZE)
+    coder = ArithmeticEncoder(
+        HEADER_MANAGER, ENCODER_BYTE_PRECISION, BLOCK_BUFFER_SIZE)
 
     while True:
 
