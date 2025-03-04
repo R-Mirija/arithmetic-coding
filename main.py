@@ -9,6 +9,11 @@ TXT_FILE_PATH = f"{CURRENT_DIR}/out/to_compress.txt"
 BIN_FILE_PATH = f"{CURRENT_DIR}/out/compressed.bin"
 UNZIPPED_PATH = f"{CURRENT_DIR}/out/decompressed.txt"
 
+# TXT_FILE_PATH = f"{CURRENT_DIR}/out/1.png"
+# BIN_FILE_PATH = f"{CURRENT_DIR}/out/1.bin"
+# UNZIPPED_PATH = f"{CURRENT_DIR}/out/2.png"
+
+
 # Integer constants
 ENCODER_BYTE_PRECISION = 4  # 32 bits
 BLOCK_BUFFER_SIZE = 8192  # 8 Ko
